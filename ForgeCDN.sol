@@ -44,7 +44,7 @@ contract ForgeCDN is ERC20{
         owner = msg.sender;
         totalSupply_ = INITIAL_SUPPLY;
         balances[msg.sender] = INITIAL_SUPPLY;
-        Transfer(0x0, msg.sender, INITIAL_SUPPLY);
+        emit Transfer(0x0, msg.sender, INITIAL_SUPPLY);
     }
 
     /**
@@ -92,7 +92,7 @@ contract ForgeCDN is ERC20{
      * @dev Allows the pendingOwner address to finalize the transfer.
      */
     function claimOwnership() onlyPendingOwner public {
-        OwnershipTransferred(owner, pendingOwner);
+        emit OwnershipTransferred(owner, pendingOwner);
         owner = pendingOwner;
         pendingOwner = address(0);
     }
@@ -116,7 +116,7 @@ contract ForgeCDN is ERC20{
         // SafeMath.sub will throw if there is not enough balance.
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
-        Transfer(msg.sender, _to, _value);
+        emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
@@ -134,7 +134,7 @@ contract ForgeCDN is ERC20{
         balances[_from] = balances[_from].sub(_value);
         balances[_to] = balances[_to].add(_value);
         allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
-        Transfer(_from, _to, _value);
+        emit Transfer(_from, _to, _value);
         return true;
     }
 
@@ -145,7 +145,7 @@ contract ForgeCDN is ERC20{
     */
     function approve(address _spender, uint256 _value) public whenNotPaused returns (bool) {
         allowed[msg.sender][_spender] = _value;
-        Approval(msg.sender, _spender, _value);
+        emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
@@ -166,7 +166,7 @@ contract ForgeCDN is ERC20{
      */
     function increaseApproval(address _spender, uint _addedValue) public whenNotPaused returns (bool) {
         allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
-        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
 
@@ -182,7 +182,7 @@ contract ForgeCDN is ERC20{
         } else {
             allowed[msg.sender][_spender] = oldValue.sub(_subtractedValue);
         }
-        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
 
@@ -204,7 +204,7 @@ contract ForgeCDN is ERC20{
         address burner = msg.sender;
         balances[burner] = balances[burner].sub(_value);
         totalSupply_ = totalSupply_.sub(_value);
-        Burn(burner, _value);
+        emit Burn(burner, _value);
     }
 
     /**
@@ -212,7 +212,7 @@ contract ForgeCDN is ERC20{
      */
     function pause() onlyOwner whenNotPaused public {
         paused = true;
-        Pause();
+        emit Pause();
     }
 
     /**
@@ -220,7 +220,7 @@ contract ForgeCDN is ERC20{
      */
     function unpause() onlyOwner whenPaused public {
         paused = false;
-        Unpause();
+        emit Unpause();
     }
 
     /**
@@ -232,7 +232,7 @@ contract ForgeCDN is ERC20{
         balances[msg.sender] -= value;
         totalSupply_ -= value;
         MigrationAgent(migrationAgent).migrateFrom(msg.sender, value);
-        Migrate(msg.sender, migrationAgent, value);
+        emit Migrate(msg.sender, migrationAgent, value);
     }
 
     /**
