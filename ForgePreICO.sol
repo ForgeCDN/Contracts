@@ -37,18 +37,17 @@ contract ForgePreICO {
      */
     event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
-    function ForgePreICO(address _wallet, ERC20 _token, address _vault) public
+    function ForgePreICO(ERC20 _token, address _operationWallet, address _vault) public
     {
-        require(_wallet != address(0));
         require(_vault != address(0));
+        require(_operationWallet != address(0));
         require(_token != address(0));
-        operationWallet = 0xcbe38e3b2a98d664890e8f358edb8071e20f5188;
-        //wallet = 0x1B8C56f79A59320f40aB9d7E7CcA1eC5D8fCF1a0;
+        operationWallet = _operationWallet;
+        wallet = msg.sender;
         cap = 2400 * 1 ether;
         startTime = 1522670400;
         endTime = 1525003200;
         rate = 1500;
-        wallet = _wallet;
         vault = _vault;
         token = _token;
     }
