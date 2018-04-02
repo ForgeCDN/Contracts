@@ -29,7 +29,7 @@ contract ForgeVault {
         _;
     }
 
-    function ForgeVault(ERC20 _ForgeToken){
+    function ForgeVault(ERC20 _ForgeToken) public {
         owner = msg.sender;
         ForgeToken = _ForgeToken;
     }
