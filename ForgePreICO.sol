@@ -73,7 +73,7 @@ contract ForgePreICO {
         token.transferFrom(wallet, operationWallet, operationTokens);
         token.transferFrom(wallet, vault, commandTokens);
         
-        TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
+        emit TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
 
         forwardFunds();
     }
