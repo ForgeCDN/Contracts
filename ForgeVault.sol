@@ -46,7 +46,7 @@ contract ForgeVault {
      * @dev Allows the pendingOwner address to finalize the transfer.
      */
     function claimOwnership() public onlyPendingOwner {
-        OwnershipTransferred(owner, pendingOwner);
+        emit OwnershipTransferred(owner, pendingOwner);
         owner = pendingOwner;
         pendingOwner = address(0);
     }
